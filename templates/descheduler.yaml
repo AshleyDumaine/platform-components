@@ -1,0 +1,22 @@
+{{- if .Values.descheduler.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: descheduler-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: kube-system
+  source:
+    chart: descheduler
+    repoURL: {{ .Values.descheduler.repoURL }}
+    targetRevision: {{ .Values.descheduler.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

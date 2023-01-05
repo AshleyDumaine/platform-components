@@ -1,0 +1,22 @@
+{{- if .Values.x509_certificate_exporter.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: x509-certificate-exporter-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: monitoring
+  source:
+    chart: x509-certificate-exporter
+    repoURL: {{ .Values.x509_certificate_exporter.repoURL }}
+    targetRevision: {{ .Values.x509_certificate_exporter.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

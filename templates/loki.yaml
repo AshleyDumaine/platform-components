@@ -1,0 +1,22 @@
+{{- if .Values.loki.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: logging
+  source:
+    chart: loki
+    repoURL: {{ .Values.loki.repoURL }}
+    targetRevision: {{ .Values.loki.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

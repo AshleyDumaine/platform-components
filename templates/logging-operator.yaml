@@ -1,0 +1,22 @@
+{{- if .Values.logging_operator.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: logging-operator-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: logging
+  source:
+    chart: logging-operator
+    repoURL: {{ .Values.logging_operator.repoURL }}
+    targetRevision: {{ .Values.logging_operator.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

@@ -1,0 +1,22 @@
+{{- if .Values.kube_prometheus_stack.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: monitoring
+  source:
+    chart: kube-prometheus-stack
+    repoURL: {{ .Values.kube_prometheus_stack.repoURL }}
+    targetRevision: {{ .Values.kube_prometheus_stack.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

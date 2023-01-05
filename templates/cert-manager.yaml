@@ -1,0 +1,22 @@
+{{- if .Values.cert_manager.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-{{ .Values.serverName }}
+  namespace: argocd
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: {{ .Values.serverName }}
+    namespace: cert-manager
+  source:
+    chart: cert-manager
+    repoURL: {{ .Values.cert_manager.repoURL }}
+    targetRevision: {{ .Values.cert_manager.version }}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+{{- end }}

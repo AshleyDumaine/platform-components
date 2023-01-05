@@ -1,0 +1,62 @@
+# ===================================================
+# Default values for app-platform.
+# ===================================================
+
+# Default to in-cluster for components
+serverName: in-cluster
+
+# Default to ArgoCD default project
+project: default
+
+# ===================================================
+# Observability
+# ===================================================
+kube_prometheus_stack:
+  enabled: true
+  repoURL: https://prometheus-community.github.io/helm-charts
+  version: 43.2.1
+
+logging_operator:
+  enabled: true
+  repoURL: https://kubernetes-charts.banzaicloud.com
+  version: 3.17.10
+
+# enable for in-cluster log aggregation
+loki:
+  enabled: false
+  repoURL: https://grafana.github.io/helm-charts
+  version: 3.8.0
+
+# ===================================================
+# Additional cert expiration monitoring
+# ===================================================
+x509_certificate_exporter:
+  enabled: true
+  repoURL: https://charts.enix.io
+  version: 3.6.0
+
+# ===================================================
+# Ingress
+# ===================================================
+ingress_nginx:
+  enabled: true
+  repoURL: https://kubernetes.github.io/ingress-nginx
+  version: 4.4.2
+
+external_dns:
+  enabled: true
+  repoURL: https://kubernetes-sigs.github.io/external-dns
+  version: 1.12.0
+
+cert_manager:
+  enabled: true
+  repoURL: https://charts.jetstack.io
+  version: 1.10.1
+
+# ===================================================
+# Misc
+# ===================================================
+descheduler:
+  enabled: true
+  repoURL: https://kubernetes-sigs.github.io/descheduler
+  version: 0.25.2
